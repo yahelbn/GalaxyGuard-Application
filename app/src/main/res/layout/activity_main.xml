@@ -118,7 +118,7 @@
 
     <FrameLayout
            android:id="@+id/frame"
-           android:layout_width="430dp"
+           android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_weight="2"
            android:layout_marginRight="0dp"
@@ -128,7 +128,7 @@
 
            <RelativeLayout
                android:id="@+id/relLayout"
-               android:layout_width="430dp"
+               android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:layout_marginTop="105dp"
                android:layout_marginLeft="0dp"
@@ -136,12 +136,14 @@
                android:layout_marginBottom="10dp"
                tools:ignore="InvalidId">
 
-               <Button
+               <ImageButton
                    android:id="@+id/leftBtn"
                    android:layout_width="60dp"
                    android:layout_height="60dp"
                    android:layout_alignParentLeft="true"
                    android:layout_marginLeft="9dp"
+                   android:scaleType="fitCenter"
+                   android:adjustViewBounds="true"
                    android:background="@drawable/left" />
 
 
@@ -175,12 +177,13 @@
                    android:background="@drawable/spaceship"
                    />
 
-               <Button
+               <ImageButton
                    android:id="@+id/rightBtn"
                    android:layout_width="60dp"
                    android:layout_height="60dp"
                    android:layout_alignParentRight="true"
                    android:layout_marginRight="15dp"
+                   android:scaleType="fitCenter"
                    android:background="@drawable/left"
                    android:rotation="180" />
 
