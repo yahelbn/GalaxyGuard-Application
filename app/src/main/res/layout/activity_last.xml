@@ -7,7 +7,6 @@
     tools:context=".LastActivity"
     android:background="@drawable/space"
     android:orientation="vertical"
-
     android:layoutDirection="ltr"
     >
 <!--    android:gravity="center"-->
