@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,13 +7,22 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:layoutDirection="ltr"
+    android:onClick="ScreenTaped"
+    android:background="@drawable/space"
+    android:id="@+id/all_screen_layout"
+    >
 
-   android:background="@drawable/space">
-
-
-
-
-
+    <VideoView
+        android:id="@+id/mVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        />
 
 
     <LinearLayout
@@ -27,7 +36,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/heart1"
-            app:srcCompat="@drawable/like"
+            app:srcCompat="@drawable/like_improve"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
 
@@ -37,7 +46,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/heart2"
-            app:srcCompat="@drawable/like"
+            app:srcCompat="@drawable/like_improve"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
 
@@ -47,7 +56,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/heart3"
-            app:srcCompat="@drawable/like"
+            app:srcCompat="@drawable/like_improve"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
 
@@ -58,38 +67,38 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:layout_gravity="right"
-        android:layout_marginTop="0dp"
-        >
+
 
         <TextView
             android:id="@+id/pointText"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Score"
+            android:textStyle="italic"
             android:layout_gravity="right"
             android:textColor="@color/colorTextTitle"
-            android:layout_marginLeft="210dp"
+            android:gravity="right"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="35dp"
             android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-light"
+
             ></TextView>
 
 
-    </LinearLayout>
 
 
     <ImageView
         android:id="@+id/rocket"
         android:layout_width="100dp"
-        android:layout_height="197dp"
-        app:srcCompat="@drawable/rocket"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/rocketimproved3"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="-37dp"
         android:rotation="180"
+
        />
 
 
@@ -97,43 +106,69 @@
     <ImageView
         android:id="@+id/rocket2"
         android:layout_width="100dp"
-        android:layout_height="197dp"
+        android:layout_height="150dp"
         android:rotation="180"
-        app:srcCompat="@drawable/rocket"
+        app:srcCompat="@drawable/rocketimproved3"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="-37dp"
+        />
+
+    <ImageView
+        android:id="@+id/rocket3"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:rotation="180"
+        app:srcCompat="@drawable/rocketimproved3"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="-37dp"
         />
 
 
-<!--    <ImageView-->
-<!--        android:id="@+id/rocket3"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="197dp"-->
-<!--        android:rotation="180"-->
-<!--        app:srcCompat="@drawable/rocket"-->
-<!--        tools:ignore="MissingConstraints"-->
-<!--        tools:layout_editor_absoluteX="1dp"-->
-<!--        tools:layout_editor_absoluteY="-37dp" />-->
+    <ImageView
+        android:id="@+id/coin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:rotation="180"
+        app:srcCompat="@drawable/coin"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="-37dp"
+        />
+
+    <ImageView
+        android:id="@+id/bulllet"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:rotation="270"
+        app:srcCompat="@drawable/bullet"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="-37dp"
+        />
+
+
+
 
     <FrameLayout
            android:id="@+id/frame"
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_weight="2"
-           android:layout_marginRight="0dp"
-           android:layout_marginLeft="0dp">
+           android:layout_height="match_parent"
+
+        android:layout_weight="0.1"
+    >
+        <!--           android:layout_weight="2"-->
 
 
 
            <RelativeLayout
                android:id="@+id/relLayout"
                android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="105dp"
-               android:layout_marginLeft="0dp"
-               android:layout_marginRight="0dp"
+               android:layout_height="match_parent"
                android:layout_marginBottom="10dp"
+               android:layout_gravity="bottom"
+               android:gravity="bottom"
                tools:ignore="InvalidId">
 
                <ImageButton
@@ -144,21 +179,26 @@
                    android:layout_marginLeft="9dp"
                    android:scaleType="fitCenter"
                    android:adjustViewBounds="true"
-                   android:background="@drawable/left" />
+                   android:background="@drawable/left_improved"
+android:layout_alignParentBottom="true"                   />
 
 
                <ImageView
                    android:id="@+id/spaceShip"
                    android:layout_width="100dp"
                    android:layout_height="100dp"
-                   android:background="@drawable/spaceship"/>
+                   android:background="@drawable/spaceshipimproved"
+                   android:layout_alignParentBottom="true"                   />
+               />
 
                <ImageView
                    android:id="@+id/spaceShip2"
                    android:layout_width="100dp"
                    android:layout_height="100dp"
-                   android:background="@drawable/spaceship"
-                   android:visibility="visible"/>
+                   android:background="@drawable/spaceshipimproved"
+                   android:visibility="visible"
+                   android:layout_alignParentBottom="true"                   />
+               />
 
 
                <ImageView
@@ -166,16 +206,20 @@
                    android:visibility="visible"
                    android:layout_width="100dp"
                    android:layout_height="100dp"
-                   android:background="@drawable/spaceship"
-                   />
+                   android:background="@drawable/spaceshipimproved"
+                   android:layout_alignParentBottom="true"                   />
+
+               />
 
                <ImageView
                    android:id="@+id/spaceShip4"
                    android:visibility="visible"
                    android:layout_width="100dp"
                    android:layout_height="100dp"
-                   android:background="@drawable/spaceship"
-                   />
+                   android:background="@drawable/spaceshipimproved"
+                   android:layout_alignParentBottom="true"                   />
+
+               />
 
                <ImageButton
                    android:id="@+id/rightBtn"
@@ -184,8 +228,11 @@
                    android:layout_alignParentRight="true"
                    android:layout_marginRight="15dp"
                    android:scaleType="fitCenter"
-                   android:background="@drawable/left"
-                   android:rotation="180" />
+                   android:background="@drawable/left_improved"
+                   android:rotation="180"
+                   android:layout_alignParentBottom="true"                   />
+
+               />
 
 
            </RelativeLayout>
@@ -197,5 +244,5 @@
 
 
 
-</LinearLayout>
+</RelativeLayout>
 
