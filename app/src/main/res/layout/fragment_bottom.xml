@@ -7,10 +7,10 @@
     android:gravity="center"
     android:layoutDirection="ltr">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="250dp"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        android:text="TextView" />
+ <com.google.android.gms.maps.MapView
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:id="@+id/mapView"
+     android:transitionName="com.google.android.gms.maps.SupportMapFragment"
+     ></com.google.android.gms.maps.MapView>
 </LinearLayout>

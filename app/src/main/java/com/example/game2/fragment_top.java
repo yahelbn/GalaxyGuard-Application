@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,9 @@ public class fragment_top extends Fragment {
 
 
     private boolean table_flag=false;
-    private int best1, best2, best3;
+    private static int best1, best2, best3;
+    private static double lati1,lati2,lati3=0;
+    private static double Long1,Long2,Long3=0;
     private Button playAgain;
     private TableLayout table;
     private Button tableButton;
@@ -38,12 +41,47 @@ public class fragment_top extends Fragment {
     private TextView textViewThirdPlace;
     private TextView textCurrentScore;
 
+
+    //Location
+    private static double latitudeCurrent;
+    private static double longtitudeCurrent;
+
+
+    //users
+
+    public static UserRecord usernumber1;
+    public static UserRecord usernumber2;
+    public static UserRecord usernumber3;
+    private fragmentTopListener listener;
+
+    public interface fragmentTopListener{
+        void onInputUser(UserRecord userRecord);
+    }
+
+
+
+    public static void setLatitudeCurrent(double latitudeCurrent) {
+        fragment_top.latitudeCurrent = latitudeCurrent;
+    }
+
+    public static void setLongtitudeCurrent(double longtitudeCurrent) {
+        fragment_top.longtitudeCurrent = longtitudeCurrent;
+    }
+
+    public static double getLatitudeCurrent() {
+        return latitudeCurrent;
+    }
+
+    public static double getLongtitudeCurrent() {
+        return longtitudeCurrent;
+    }
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.fragment_top,container,false);
-
-
 
 
         table=v.findViewById(R.id.tableScore);
@@ -54,9 +92,37 @@ public class fragment_top extends Fragment {
         textViewThirdPlace=v.findViewById(R.id.textViewThirdPlace);
         textCurrentScore=v.findViewById(R.id.currentScore);
 
+
+
         updateScreenAfterCalc();
 
+        Log.i("user1"," - "+usernumber1.getLatitude());
+        Log.i("user2"," - "+usernumber2.getLatitude());
+        Log.i("user3"," - "+usernumber3.getLatitude());
 
+        textViewFirstPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onInputUser(usernumber1);
+
+            }
+        });
+
+        textViewSecondPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onInputUser(usernumber2);
+
+            }
+        });
+
+        textViewThirdPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onInputUser(usernumber3);
+
+            }
+        });
 
 
         playAgain.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +178,22 @@ public class fragment_top extends Fragment {
         return v;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof fragmentTopListener){
+            listener=(fragmentTopListener)context;
+        }
+        else{
+            throw new RuntimeException(context.toString()+"Must implements fragmentTop");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener=null;
+    }
 
     public void updateScreenAfterCalc(){
 
@@ -120,39 +202,118 @@ public class fragment_top extends Fragment {
         SharedPreferences pref =  getContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         int currentScore=pref.getInt("current_score", 0); // getting int num score in integer
+
         best1=pref.getInt("best1",0);
         best2=pref.getInt("best2",0);
         best3=pref.getInt("best3",0);
 
-        if(currentScore>best3){
-            best3=currentScore;
-            editor.putInt("best3", best3);
+
+//        //Locations
+        latitudeCurrent=getLatitudeCurrent(); //
+         longtitudeCurrent=getLongtitudeCurrent(); //
+//
+//        //Latitude
+//
+// getting int num score in integer
+        String checkLati1=pref.getString("latitude1", null);
+        if(checkLati1!=null)
+            lati1=Double.valueOf(checkLati1);
+
+        String checkLati2=pref.getString("latitude2", null);
+        if(checkLati2!=null)
+            lati2=Double.valueOf(checkLati2);
+
+        String checkLati3=pref.getString("latitude3", null);
+        if(checkLati3!=null)
+            lati3=Double.valueOf(checkLati3);
+
+//
+//        //Longtitude
+
+        String checkLong1=pref.getString("long1", null);
+        if(checkLong1!=null)
+            Long1=Double.valueOf(checkLong1);
+
+        String checkLong2=pref.getString("long2", null);
+        if(checkLong2!=null)
+            Long2=Double.valueOf(checkLong2);
+
+        String checkLong3=pref.getString("long3", null);
+        if(checkLong3!=null)
+            Long3=Double.valueOf(checkLong3);
+
+
+        usernumber1=new UserRecord(lati1,Long1,"name",best1);
+        usernumber2=new UserRecord(lati2,Long2,"name",best2);
+        usernumber3=new UserRecord(lati3,Long3,"name",best3);
+
+
+
+
+
+
+
+        if(currentScore>usernumber3.getScore()){
+            usernumber3.setScore(currentScore);
+            usernumber3.setLatitude(latitudeCurrent);
+            usernumber3.setLongtitude(longtitudeCurrent);
+            editor.putInt("best3", usernumber3.getScore());
+           editor.putString("latitude3", String.valueOf(usernumber3.getLatitude()));
+            editor.putString("long3", String.valueOf(usernumber3.getLongtitude()));
+
+
             editor.apply();
         }
 
-        if(currentScore>best2){
-            int temp=best2;
-            best2=currentScore;
-            best3=temp;
-            editor.putInt("best2", best2);
-            editor.putInt("best3", best3);
+        if(currentScore>usernumber2.getScore()){
+            int temp=usernumber2.getScore();
+            double tempLati=usernumber2.getLatitude();
+            double tempLong=usernumber2.getLongtitude();
+            usernumber2.setScore(currentScore);
+            usernumber2.setLatitude(latitudeCurrent);
+            usernumber2.setLongtitude(longtitudeCurrent);
+            usernumber3.setScore(temp);
+            usernumber3.setLatitude(tempLati);
+            usernumber3.setLongtitude(tempLong);
+            editor.putInt("best2", usernumber2.getScore());
+            editor.putInt("best3", usernumber3.getScore());
+            editor.putString("latitude3", String.valueOf(usernumber3.getLatitude()));
+            editor.putString("long3", String.valueOf(usernumber3.getLongtitude()));
+            editor.putString("latitude2", String.valueOf(usernumber2.getLatitude()));
+            editor.putString("long2", String.valueOf(usernumber2.getLongtitude()));
             editor.apply();
         }
 
-        if(currentScore>best1){
-            int temp=best1;
-            best1=currentScore;
-            best2=temp;
-            editor.putInt("best1", best1);
-            editor.putInt("best2", best2);
+        if(currentScore>usernumber1.getScore()){
+            int temp=usernumber1.getScore();
+            double tempLati=usernumber1.getLatitude();
+            double tempLong=usernumber1.getLongtitude();
+            usernumber1.setScore(currentScore);
+            usernumber1.setLatitude(latitudeCurrent);
+            usernumber1.setLongtitude(longtitudeCurrent);
+            usernumber2.setScore(temp);
+            usernumber2.setLatitude(tempLati);
+            usernumber2.setLongtitude(tempLong);
+            editor.putInt("best1", usernumber1.getScore());
+            editor.putInt("best2", usernumber2.getScore());
+            editor.putString("latitude1", String.valueOf(usernumber1.getLatitude()));
+            editor.putString("long1", String.valueOf(usernumber1.getLongtitude()));
+            editor.putString("latitude2", String.valueOf(usernumber2.getLatitude()));
+            editor.putString("long2", String.valueOf(usernumber2.getLongtitude()));
             editor.apply();
         }
 
-        textViewFirstPlace.setText(String.valueOf(best1));
-        textViewSecondPlace.setText(String.valueOf(best2));
-        textViewThirdPlace.setText(String.valueOf(best3));
+        textViewFirstPlace.setText(String.valueOf(usernumber1.getScore()));
+        textViewSecondPlace.setText(String.valueOf(usernumber2.getScore()));
+        textViewThirdPlace.setText(String.valueOf(usernumber3.getScore()));
+        usernumber1.setText("First place");
+        usernumber2.setText("Second place");
+        usernumber3.setText("third place");
+
 
         textCurrentScore.setText("Your score is:"+currentScore);
+
+
     }
 
 
@@ -175,4 +336,7 @@ public class fragment_top extends Fragment {
             tableButton.setText("Hide Details");
         }
     }
+
+
+
 }
